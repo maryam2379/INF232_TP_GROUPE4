@@ -26,7 +26,7 @@ FICHIER_SORTIE = "data/eleves.csv"
 # ============================================================================
 
 def normaliser_nom(nom_complet):
-   
+  
     # Passer en majuscules
     nom = nom_complet.upper()
     
@@ -41,7 +41,7 @@ def normaliser_nom(nom_complet):
 
 
 def nom_vers_graine(nom_normalise):
-    
+
     graine = 0
     for position, caractere in enumerate(nom_normalise, start=1):
         code_ascii = ord(caractere)
@@ -114,16 +114,18 @@ def generer_donnees(graine, n=NB_ELEVES):
     #
     # On calcule un "score scientifique" pour chaque eleve :
     #   score_scientifique = 0.6 * note + 0.04 * heures_travail + bruit
-    #
-    # Si score > seuil -> "scientifique"
-    # Si score <= seuil -> "litteraire"
-    # Le seuil est choisi pour avoir environ 55% scientifique / 45% litteraire
     
     bruit_orientation = np.random.normal(0, 1.5, size=n)
     score_scientifique = 0.6 * note_evaluation + 0.04 * heures_travail + bruit_orientation
     
-    # Seuil determine empiriquement pour un repartition realiste
-    seuil = 9.2
+    # ------------------------------------------------------------------------
+    # Calcul AUTOMATIQUE du seuil pour garantir la repartition 55%/45%
+    # ------------------------------------------------------------------------
+    # On veut : 55% scientifique (score > seuil) et 45% litteraire (score <= seuil)
+    # Le seuil optimal est le 45eme percentile du score_scientifique :
+    #   - 45% des eleves ont un score <= seuil  -> litteraire
+    #   - 55% des eleves ont un score > seuil   -> scientifique
+    seuil = np.percentile(score_scientifique, 45)
     
     orientation = np.where(score_scientifique > seuil, "scientifique", "litteraire")
     
@@ -170,6 +172,11 @@ def afficher_recap(df, graine, nom_chef):
     print(df[['note_evaluation', 'heures_travail']].describe().round(2).to_string())
     print("\n--- REPARTITION DES ORIENTATIONS ---")
     print(df['orientation'].value_counts().to_string())
+    # Pourcentages
+    repartition = df['orientation'].value_counts(normalize=True) * 100
+    print("\n--- POURCENTAGES ---")
+    for orient, pct in repartition.items():
+        print(f"  {orient:<15s} : {pct:.1f}%")
     print("\n--- CORRELATION NOTE vs HEURES DE TRAVAIL ---")
     corr = df['note_evaluation'].corr(df['heures_travail'])
     print(f"Coefficient de correlation de Pearson : {corr:.3f}")

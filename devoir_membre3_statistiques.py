@@ -23,7 +23,7 @@ FICHIER_DONNEES = "eleves.csv"
 # ----------------------------------------------------------------------
 def charger_donnees(chemin=FICHIER_DONNEES):
     """Lit le fichier CSV et renvoie un DataFrame pandas."""
-    df = pd.read_csv("data/eleves.cvs")
+    df = pd.read_csv("data/eleves.csv")
     return df
 
 

@@ -1,21 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-INF232 - Theme D - Question 3
-Equipe 4 / Membre 7 : Application du clustering (k-means)
-
-Ce script applique une classification non supervisée (k-means) sur les deux
-mesures disponibles (note d'évaluation et heures de travail) pour identifier
-des groupes naturels d'élèves aux profils proches.
-
-Deux méthodes objectives sont utilisées pour déterminer le nombre optimal de
-groupes :
-    1. Méthode du coude (inertie)
-    2. Indice de silhouette
-
-Le script lit toujours le même fichier eleves.csv (figé par la graine du
-groupe), donc le résultat est garanti identique à chaque exécution.
-"""
 
 import numpy as np
 import pandas as pd
@@ -35,22 +19,14 @@ RANDOM_STATE = 42  # Pour la reproductibilité de k-means
 
 def charger_donnees(chemin=FICHIER_DONNEES):
     """Lit le fichier CSV et renvoie un DataFrame pandas."""
-    df = pd.read_csv("data/eleves.csv")
+    df = pd.read_csv(chemin)
     return df
 
 
 # 2. PREPARATION DES DONNEES POUR LE CLUSTERING
 
 def preparer_donnees_clustering(df):
-    """
-    Extrait les deux colonnes numériques (note_evaluation, heures_travail)
-    et les standardise (moyenne = 0, écart-type = 1) pour que les deux
-    variables aient la même importance dans le calcul des distances.
-    
-    Le standard scaling est nécessaire car les notes sont sur 20 et les
-    heures de travail sur environ 25 : sans standardisation, la variable
-    avec la plus grande variance dominerait la distance.
-    """
+   
     # Sélectionner les deux colonnes numériques
     X = df[['note_evaluation', 'heures_travail']].copy()
     
@@ -64,12 +40,7 @@ def preparer_donnees_clustering(df):
 # 3. METHODE DU COUDE - DETERMINATION DU NOMBRE OPTIMAL DE CLUSTERS
 
 def methode_du_coude(X_scaled, max_clusters=MAX_CLUSTERS):
-    """
-    Calcule l'inertie (somme des carrés des distances intra-cluster) pour
-    différents nombres de clusters. On cherche le "coude" : le point où
-    l'ajout d'un cluster supplémentaire ne réduit plus significativement
-    l'inertie.
-    """
+    
     inerties = []
     k_range = range(1, max_clusters + 1)
     
@@ -82,10 +53,7 @@ def methode_du_coude(X_scaled, max_clusters=MAX_CLUSTERS):
 
 
 def tracer_courbe_coude(k_range, inerties, fichier="coude_clusters.png"):
-    """
-    Trace la courbe de l'inertie en fonction du nombre de clusters et
-    sauvegarde l'image.
-    """
+   
     plt.figure(figsize=(10, 6))
     plt.plot(k_range, inerties, 'bo-', color='#4C72B0', linewidth=2, markersize=8)
     plt.xlabel('Nombre de clusters (k)', fontsize=12)
@@ -103,12 +71,7 @@ def tracer_courbe_coude(k_range, inerties, fichier="coude_clusters.png"):
 # 4. INDICE DE SILHOUETTE - CONFIRMATION DU NOMBRE OPTIMAL
 
 def calculer_indices_silhouette(X_scaled, max_clusters=MAX_CLUSTERS):
-    """
-    Calcule l'indice de silhouette pour chaque nombre de clusters (à partir
-    de k=2, car la silhouette n'est pas définie pour k=1). L'indice de
-    silhouette mesure la cohésion des clusters : plus il est proche de 1,
-    mieux les points sont regroupés.
-    """
+   
     silhouette_scores = []
     k_range = range(2, max_clusters + 1)
     
@@ -122,10 +85,7 @@ def calculer_indices_silhouette(X_scaled, max_clusters=MAX_CLUSTERS):
 
 
 def tracer_silhouette(k_range, silhouette_scores, fichier="silhouette_clusters.png"):
-    """
-    Trace l'indice de silhouette en fonction du nombre de clusters et
-    sauvegarde l'image.
-    """
+    
     plt.figure(figsize=(10, 6))
     plt.plot(k_range, silhouette_scores, 's-', color='#C44E52', linewidth=2, markersize=8)
     plt.xlabel('Nombre de clusters (k)', fontsize=12)
@@ -141,10 +101,7 @@ def tracer_silhouette(k_range, silhouette_scores, fichier="silhouette_clusters.p
 
 
 def determiner_nombre_optimal(k_range, silhouette_scores):
-    """
-    Détermine le nombre optimal de clusters comme celui qui maximise
-    l'indice de silhouette.
-    """
+    
     meilleur_index = np.argmax(silhouette_scores)
     meilleur_k = k_range[meilleur_index]
     meilleur_score = silhouette_scores[meilleur_index]
@@ -153,10 +110,7 @@ def determiner_nombre_optimal(k_range, silhouette_scores):
 # 5. EXECUTION DU CLUSTERING AVEC LE NOMBRE OPTIMAL DE CLUSTERS
 
 def appliquer_clustering(X_scaled, n_clusters):
-    """
-    Applique l'algorithme k-means avec le nombre optimal de clusters
-    déterminé précédemment.
-    """
+    
     kmeans = KMeans(n_clusters=n_clusters, n_init=10, random_state=RANDOM_STATE)
     labels = kmeans.fit_predict(X_scaled)
     centres = kmeans.cluster_centers_
@@ -165,14 +119,7 @@ def appliquer_clustering(X_scaled, n_clusters):
 
 def visualiser_clusters(df, X_scaled, labels, centres, scaler,
                         fichier="visualisation_clusters.png"):
-    """
-    Visualise les clusters dans le plan (note, heures) avec les centres.
-    Les points sont colorés par cluster et les centres sont marqués par
-    une étoile blanche.
-    
-    Attention : Pour l'affichage, on utilise les données originales
-    (non standardisées) pour que les axes soient lisibles.
-    """
+   
     # Récupérer les données originales (non standardisées)
     X_original = df[['note_evaluation', 'heures_travail']].values
     
@@ -268,9 +215,7 @@ def afficher_statistiques_clusters(stats, repartition, pourcentages):
 # 7. FONCTION PRINCIPALE
 
 def analyser_clustering(df):
-    """
-    Fonction "chef d'orchestre" qui exécute toutes les étapes du clustering.
-    """
+   
     print("\n" + "=" * 70)
     print("QUESTION 3 - Classification non supervisée (clustering)")
     print("=" * 70)

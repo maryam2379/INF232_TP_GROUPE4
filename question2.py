@@ -1,20 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-INF232 - Theme D - Question 2
-Equipe 3 : Membre 5 (correlation + regression) et Membre 6 (fiabilite + redaction)
 
-Question posee par le proviseur :
-"Certains professeurs pensent que le resultat a cette evaluation est fortement
-lie a la seconde mesure que vous avez recueillie (heures de travail personnel).
-Est-ce verifie dans mes donnees ? Si oui, pourrait-on, pour les eleves qui n'ont
-pas encore passe l'evaluation, anticiper leur resultat probable a partir de
-cette seconde mesure ? A partir de quel point une telle anticipation
-deviendrait-elle trop incertaine pour etre utilisee serieusement ?"
-
-Ce script lit toujours le meme fichier eleves.csv (fige par la graine du
-groupe), donc le resultat est garanti identique a chaque execution.
-"""
 
 import numpy as np
 import pandas as pd
@@ -37,12 +23,7 @@ def charger_donnees(chemin=FICHIER_DONNEES):
 # 2. Correlation entre les deux variables (Membre 5)
 # ----------------------------------------------------------------------
 def calculer_correlation(df, col_x="heures_travail", col_y="note_evaluation"):
-    """
-    Calcule le coefficient de correlation de Pearson entre les deux
-    mesures. Pearson est justifie ici car on cherche une relation
-    lineaire entre deux variables numeriques continues (a verifier
-    visuellement avec le nuage de points).
-    """
+  
     correlation, p_value = scipy_stats.pearsonr(df[col_x], df[col_y])
     return correlation, p_value
 
@@ -51,11 +32,7 @@ def calculer_correlation(df, col_x="heures_travail", col_y="note_evaluation"):
 # 3. Regression lineaire (Membre 5)
 # ----------------------------------------------------------------------
 def calculer_regression(df, col_x="heures_travail", col_y="note_evaluation"):
-    """
-    Ajuste une droite de regression lineaire : note = a * heures + b.
-    Renvoie la pente (a), l'ordonnee a l'origine (b), le coefficient
-    de determination R², l'erreur type de la pente et la p-value.
-    """
+   
     pente, ordonnee, r_value, p_value, erreur_std = scipy_stats.linregress(
         df[col_x], df[col_y]
     )
@@ -70,7 +47,7 @@ def calculer_regression(df, col_x="heures_travail", col_y="note_evaluation"):
 
 
 def predire_note(heures, regression):
-    """Estime la note a partir des heures de travail, via la droite ajustee."""
+   
     return regression["ordonnee_origine"] + regression["pente"] * heures
 
 
@@ -78,12 +55,7 @@ def predire_note(heures, regression):
 # 4. Analyse des residus pour juger de la fiabilite (Membre 6)
 # ----------------------------------------------------------------------
 def calculer_residus(df, regression, col_x="heures_travail", col_y="note_evaluation"):
-    """
-    Calcule, pour chaque eleve, l'ecart entre sa vraie note et la note
-    predite par la droite de regression. Renvoie aussi l'ecart-type de
-    ces residus, qui donne une idee de la marge d'erreur typique d'une
-    prediction.
-    """
+   
     notes_predites = predire_note(df[col_x], regression)
     residus = df[col_y] - notes_predites
     ecart_type_residus = residus.std(ddof=1)
@@ -91,12 +63,7 @@ def calculer_residus(df, regression, col_x="heures_travail", col_y="note_evaluat
 
 
 def determiner_zone_incertaine(df, col_x="heures_travail"):
-    """
-    Identifie la zone des heures de travail ou peu de donnees sont
-    disponibles (bornes extremes de l'echantillon). Une estimation
-    devient plus incertaine en dehors de cette zone (extrapolation),
-    ou dans les zones ou les eleves observes sont rares.
-    """
+    
     q1 = df[col_x].quantile(0.05)
     q3 = df[col_x].quantile(0.95)
     minimum = df[col_x].min()

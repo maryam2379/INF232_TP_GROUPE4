@@ -1,0 +1,60 @@
+
+======================================================================
+REPONSE AU PROVISEUR - QUESTION 1
+======================================================================
+
+Monsieur le Proviseur,
+
+Voici ce que revelent les resultats de l'evaluation de vos 200 eleves :
+
+1. LES NOTES EN GENERAL
+-----------------------
+La moyenne de la classe est de 11.98 sur 20. Cela signifie que,
+globalement, vos eleves ont un niveau satisfaisant.
+
+La note "typique" (mediane) est de 11.90 sur 20. La moitie des
+eleves ont obtenu plus que ca, l'autre moitie moins.
+
+La majorite des eleves (les 50% du milieu) ont des notes comprises entre
+10.17 et 13.70 sur 20. C'est la fourchette "normale"
+de votre promotion.
+
+2. LES ELEVES HORS DU LOT
+-------------------------
+3 eleve(s) sort(ent) vraiment de l'ordinaire :
+   - ELEVE_154 : 4.0/20  -->  resultat tres faible, a suivre de pres
+   - ELEVE_031 : 20.0/20  -->  excellent resultat, au-dessus de la norme
+   - ELEVE_110 : 20.0/20  -->  excellent resultat, au-dessus de la norme
+
+Ces eleves meritent une attention particuliere du conseil pedagogique,
+dans un sens comme dans l'autre.
+
+3. COMMENT PRESENTER CELA AU CONSEIL PEDAGOGIQUE
+------------------------------------------------
+Vous pouvez resumer la situation en deux phrases :
+
+   "La moyenne de la classe est de 12.0/20. La majorite des
+    eleves se situent entre 10.2 et 13.7, avec 3
+    eleve(s) dont le resultat sort notablement du lot."
+
+4. LIMITES DE CETTE ANALYSE
+---------------------------
+Il est important de garder a l'esprit que :
+
+- Cette analyse porte sur 200 eleves seulement. Elle donne une
+  bonne idee de la promotion actuelle, mais ne peut pas etre generalisee
+  a d'autres classes sans precaution.
+
+- La moyenne est sensible aux eleves avec des notes tres hautes ou tres
+  basses. Un seul eleve avec 2/20 ou 19/20 peut faire baisser ou monter
+  la moyenne de toute la classe. C'est pourquoi on regarde aussi la
+  mediane (11.90), qui est plus robuste.
+
+- Cette analyse ne dit pas POURQUOI certains eleves ont de mauvaises
+  notes. D'autres facteurs (assiduite, methode de travail, situation
+  personnelle) seraient necessaires pour comprendre les causes.
+
+- Les notes atypiques ne sont pas forcement des "erreurs" : elles
+  peuvent refleter des profils reels d'eleves (tres forts ou en grande
+  difficulte) qu'il faut accompagner differemment.
+======================================================================

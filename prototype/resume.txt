@@ -1,0 +1,31 @@
+QUESTION 4 - CLASSIFICATION SUPERVISEE - RESUME
+======================================================================
+
+Modele evalue : Regression logistique
+
+--- CHIFFRES BRUTS ---
+Accuracy  : 0.880
+Precision : 0.862
+Rappel    : 0.926
+F1-score  : 0.893
+
+Matrice de confusion (lignes = reel, colonnes = predit) :
+                  Predit Litteraire   Predit Scientifique
+Reel Litteraire          19                   4
+Reel Scientifique         2                  25
+
+--- EXPLICATIONS EN LANGAGE CLAIR ---
+
+Sur 50 eleves testes (jamais vus pendant l'apprentissage), le modele a bien classe 44 eleves et s'est trompe pour 6 d'entre eux : 2 eleves reellement 'scientifique' ont ete predits 'litteraire', et 4 eleves reellement 'litteraire' ont ete predits 'scientifique'.
+
+Accuracy = 88.0% : sur 100 eleves, le modele devine correctement l'orientation d'environ 88 d'entre eux.
+Precision = 86.2% : quand le modele recommande la filiere scientifique, il a raison dans environ 86% des cas.
+Rappel = 92.6% : parmi tous les eleves reellement faits pour la filiere scientifique, le modele en repere environ 93%.
+
+Fiabilite et risque pedagogique :
+Ces resultats montrent une tendance utile mais imparfaite : le modele doit rester un outil d'aide a la decision pour le conseil de classe, jamais une decision automatique et definitive, car 6 eleve(s) sur 50 recevraient ici une recommandation erronee.
+
+--- INTERPRETATION DES COEFFICIENTS ---
+
+- Chaque unite supplementaire de 'note_evaluation' augmente la probabilite predite d'orientation scientifique d'environ 13.3 points de pourcentage (autour du seuil de decision).
+- Chaque unite supplementaire de 'heures_travail' augmente la probabilite predite d'orientation scientifique d'environ 3.4 points de pourcentage (autour du seuil de decision).

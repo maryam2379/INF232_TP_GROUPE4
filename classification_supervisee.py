@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-INF232 - Theme D - Question 4 : Classification supervisee
-Equipe 5 / Membre 9
-
-Script unique et complet : charge les donnees du groupe, entraine une
-regression logistique, evalue le modele, et affiche 3 graphiques
-interactifs (un par un, avec explication et pause sur Entree), tout en
-sauvegardant les images et un resume texte dans le dossier "prototype/".
-"""
 
 import os
 import sys
@@ -43,11 +34,7 @@ NOM_MODELE = "Regression logistique"
 # SECTION 1 - Chargement des donnees
 # ======================================================================
 def charger_donnees(chemin=CHEMIN_DONNEES):
-    """
-    Lit le fichier CSV du groupe et renvoie un DataFrame pandas.
-    Leve une erreur claire (message explicite) si le fichier est
-    introuvable ou si des colonnes attendues manquent.
-    """
+    
     if not os.path.exists(chemin):
         raise FileNotFoundError(
             f"Fichier de donnees introuvable : '{chemin}'.\n"
@@ -69,11 +56,7 @@ def charger_donnees(chemin=CHEMIN_DONNEES):
 # SECTION 2 - Preparation des donnees (split + standardisation)
 # ======================================================================
 def preparer_donnees(df):
-    """
-    Separe X/y, effectue un split entrainement/test stratifie et
-    reproductible, puis met les variables a l'echelle.
-    Renvoie X_train_s, X_test_s, y_train, y_test, scaler, X_brut, y_brut.
-    """
+   
     X = df[COLONNES_ENTREE].values
     y = (df[COLONNE_CIBLE] == CLASSE_POSITIVE).astype(int).values
 
@@ -92,7 +75,7 @@ def preparer_donnees(df):
 # SECTION 3 - Entrainement du classifieur retenu
 # ======================================================================
 def entrainer_modele(X_train_s, y_train):
-    """Cree et entraine la regression logistique sur les donnees standardisees."""
+    
     modele = LogisticRegression()
     modele.fit(X_train_s, y_train)
     return modele
@@ -102,11 +85,7 @@ def entrainer_modele(X_train_s, y_train):
 # SECTION 4 - Evaluation du modele
 # ======================================================================
 def evaluer_modele(modele, X_test_s, y_test):
-    """
-    Calcule la matrice de confusion et les 4 metriques demandees par
-    le sujet (accuracy, precision, rappel, F1). Renvoie un dictionnaire
-    complet, pret pour l'interpretation et l'affichage.
-    """
+   
     y_pred = modele.predict(X_test_s)
     matrice = confusion_matrix(y_test, y_pred)
     vn, fp, fn, vp = matrice.ravel()
@@ -126,12 +105,7 @@ def evaluer_modele(modele, X_test_s, y_test):
 # SECTION 5 - Interpretation des coefficients du modele
 # ======================================================================
 def interpreter_coefficients(modele, scaler):
-    """
-    Traduit les coefficients (calcules sur variables standardisees) en
-    phrases claires par variable, ramenees a "une unite reelle" (1 point
-    de note, 1 heure de travail). C'est l'argument fort de justification
-    de la regression logistique pour le rapport.
-    """
+   
     coefficients_std = modele.coef_[0]
     ecarts_types = scaler.scale_
 
@@ -152,10 +126,7 @@ def interpreter_coefficients(modele, scaler):
 # SECTION 6 - Explications en langage clair
 # ======================================================================
 def generer_explications(resultats):
-    """
-    Transforme les chiffres bruts en phrases comprehensibles par un
-    public non technique (proviseur, conseil pedagogique).
-    """
+    
     vp, vn, fp, fn = resultats["vp"], resultats["vn"], resultats["fp"], resultats["fn"]
     n = resultats["taille_test"]
     nb_erreurs = fp + fn
@@ -202,11 +173,7 @@ def _attendre_entree(message):
 
 
 def tracer_regression_logistique(modele, scaler, X_brut, y_brut, dossier=DOSSIER_SORTIE):
-    """
-    Graphique 1 : nuage de points des eleves (2 classes) + frontiere de
-    decision apprise par la regression logistique, sur les 2 variables
-    d'origine (non standardisees, pour rester lisible).
-    """
+   
     os.makedirs(dossier, exist_ok=True)
 
     x_min, x_max = X_brut[:, 0].min() - 1, X_brut[:, 0].max() + 1
@@ -255,10 +222,7 @@ def tracer_regression_logistique(modele, scaler, X_brut, y_brut, dossier=DOSSIER
 
 
 def tracer_matrice_confusion(resultats, explications, dossier=DOSSIER_SORTIE):
-    """
-    Graphique 2 : heatmap de la matrice de confusion, avec l'explication
-    en langage clair affichee directement sous le graphique.
-    """
+   
     os.makedirs(dossier, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(6, 6.5))
@@ -290,10 +254,7 @@ def tracer_matrice_confusion(resultats, explications, dossier=DOSSIER_SORTIE):
 
 
 def tracer_barres_matrice(resultats, dossier=DOSSIER_SORTIE):
-    """
-    Graphique 3 : diagramme en barres des 4 valeurs de la matrice de
-    confusion (VP, VN, FP, FN), pour une lecture plus intuitive.
-    """
+   
     os.makedirs(dossier, exist_ok=True)
 
     categories = [

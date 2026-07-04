@@ -1,41 +1,52 @@
-# Thème D : Établissement Scolaire Secondaire (Groupe 04)
+# INF232 - Theme D : Etablissement Scolaire Secondaire
 
-Ce projet a été réalisé dans le cadre des travaux pratiques de l'UE INF232 (Statistiques et Analyse de Données). Il implémente une chaîne complète d'analyse de données (statistique univariée, bivariée, clustering non supervisé et classification supervisée) appliquée aux performances et à l'orientation des élèves de terminale d'un établissement secondaire.
+Projet de statistique et analyse de donnees applique aux performances scolaires.
 
-## 📋 Structure du Projet
+## Structure du projet
 
 ```
+.
+├── classification_supervisee.py
 ├── data
-│   ├── eleves.csv
-│   └── README.md
-└── data_generation.py
-
+│   └── eleves.csv
+├── data_generation.py
+├── nuage_points_regression.png
+├── question1.py
+├── question2.py
+├── question3.py
+└── README.md
+                          
 ```
 
-## 🛠️ Installation et Prérequis
+## Installation
 
-L'application est développée en Python 3. Pour installer les dépendances nécessaires à l'exécution de l'ensemble de la chaîne, exécutez la commande suivante :
+```bash
+pip install numpy pandas matplotlib seaborn scikit-learn scipy
+```
 
-~~~bash 
-pip install numpy pandas matplotlib seaborn scikit-learn
-~~~
+## Mode d'emploi
 
-## 🚀 Mode d'emploi (Exécution de l'Application)
-
-L'exécution complète de l'application se déroule en deux étapes simples :
-
-### 1. Génération des données personnalisées
-
-Générez le jeu de données déterministe basé sur le nom du chef de groupe (Mfopit Mvu Maryam) en lançant :
-
-~~~bash 
+1. Generer les donnees :
+```bash
 python data_generation.py
-~~~
+```
 
-### 2. Lancement de l'analyse globale
-
-Pour exécuter l'application unifiée intégrant les traitements et les visualisations graphiques de toutes les équipes (univarié, bivarié, clustering, classification), lancez :
-
-~~~bash
+2. Lancer les analyses (chaque script est independant) :
+```bash
+python question1.py           # Q1 : Statistique univariee
+python question2.py    # Q2 : Statistique bivariee
+python question3.py  # Q3 : Clustering
+python classification_supervisee.py    # Q4 : Classification supervisee
+```
+3. Lancer une fois:
+```bash
 python main.py
-~~~
+``` 
+
+Chaque script lit `data/eleves.csv` et produit ses propres resultats et graphiques.
+
+## Choix du langage
+
+Python a ete choisi pour ses bibliotheques scientifiques (NumPy, Pandas,
+Matplotlib, Scikit-learn) qui couvrent l'ensemble des methodes statistiques
+requises par le sujet.
